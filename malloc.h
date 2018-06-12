@@ -4,7 +4,6 @@
 # include <sys/mman.h>
 # include <stddef.h>
 # include <unistd.h>
-# include "./libft/libft.h"
 
 # define TINY_SIZE			(size_t)getpagesize()
 # define TINY_MAX			232
