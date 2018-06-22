@@ -1,16 +1,5 @@
 #include "./malloc.h"
 
-void	add_block_to_list(t_block *block, t_block **list)
-{
-	if (*list)
-	{
-		block->next = *list;
-		(*list)->prev = block;
-	}
-
-	*list = block;
-}
-
 void	del_block_from_list(t_block *block, t_block **list)
 {
 	if (*list == block)
@@ -82,13 +71,9 @@ t_block	*find_block(size_t size, t_type type)
 
 	block = (type == TINY) ? DATA->tiny_space : DATA->small_space;
 
-	// 2 lignes: while (block && block->size >= size)
-	while (block) {
-		if (block->size >= size)
-			 break;
+	while (block && block->size < size) 
 		block = block->next;
-	}
-
+	
 	if (block == NULL)
 		block = new_page_alloc(type);
 

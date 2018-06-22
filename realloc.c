@@ -55,11 +55,11 @@ void	*realloc(void *ptr, size_t size)
 
 	if (dst == src && try_to_resize(block, dst, size))
 	{
-		add_block_to_list(block, &(DATA->malloced_space));
+		ordered_add_to_list(block, &(DATA->malloced_space));
 		return ptr;
 	}
 
-	add_block_to_list(block, &(DATA->malloced_space));
+	ordered_add_to_list(block, &(DATA->malloced_space));
 	return hard_realloc(ptr, size, block->size);
 }
 

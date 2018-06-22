@@ -46,7 +46,6 @@ void	*realloc(void *ptr, size_t size);
 
 t_data				*get_data();
 t_block				*make_and_copy_block(void *ptr, size_t size);
-void				add_block_to_list(t_block *block, t_block **list);
 t_block				*replace_block_in_list(t_block *new_block, t_block *block);
 t_block				*resize_and_move_block(t_block *block, size_t size);
 void				del_block_from_list(t_block *block, t_block **list);

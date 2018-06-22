@@ -25,7 +25,7 @@ t_block *resize_and_move_block(t_block *block, size_t size)
 
 	block->size = size;
 
-	add_block_to_list(block, &(DATA->malloced_space));
+	ordered_add_to_list(block, &(DATA->malloced_space));
 
 	return block;
 }
