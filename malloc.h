@@ -45,7 +45,7 @@ void*	malloc(size_t size);
 void	free(void *ptr);
 void	*realloc(void *ptr, size_t size);
 void	show_alloc_mem();
-
+void	*calloc(size_t nmemb, size_t size);
 t_data				*get_data();
 t_block				*make_and_copy_block(void *ptr, size_t size);
 t_block				*replace_block_in_list(t_block *new_block, t_block *block);
@@ -70,5 +70,6 @@ size_t				get_len_of_malloced_type(t_type type);
 t_block				*get_alloced_block(int nb, t_type type);
 void				putsize(size_t size);
 void				print_alloced_list(t_type type, size_t len);
+void				ft_bzero(void *s, size_t n);
 void d();
 #endif
