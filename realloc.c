@@ -9,11 +9,18 @@ int		try_to_resize(t_block *block, t_type type, size_t size)
 
 	if (block->size >= size)
 	{
+		//hard realloc si new<old mais necessite moins de page 
+		if (type == BIG && NEEDED_PAGE(block->size) > NEEDED_PAGE(size))
+			return 0;
+
 		reduct_block(block, type, size);
 		return 1;
 	}
-	else if (type == BIG && block->size >= size)
+	else if (type == BIG && (NEEDED_PAGE(block->size) == NEEDED_PAGE(size)))
+	{
+		block->size = size;	
 		return 1;
+	}
 
 	//si block suivant (en memoire) libre et assez grd pour new malloc
 	if ((nxt_blck_free = is_free(GET_DATA_ADDRESS(block) + block->size, type)) &&
@@ -30,11 +37,11 @@ int		try_to_resize(t_block *block, t_type type, size_t size)
 
 void	*hard_realloc(void *ptr, size_t size, size_t old_size)
 {
-	void	*new_ptr;
+	void *new_ptr;
 
-	new_ptr = ft_malloc(size);
+	new_ptr = malloc(size);
 
-	ft_memcpy(new_ptr, ptr, old_size);
+	ft_memcpy(new_ptr, ptr, size > old_size ? old_size : size);
 
 	free(ptr);
 
@@ -48,7 +55,8 @@ void	*realloc(void *ptr, size_t size)
 	t_block *block;
 
 	block = get_from_malloced_list(ptr);
-	if (!block) {printf("noallocedptrforrealloc");return NULL;}
+	if (!block) 
+		return NULL;
 
 	dst = determine_type(size);
 	src = determine_type(block->size);

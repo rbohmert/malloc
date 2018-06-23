@@ -53,7 +53,7 @@ t_block	*get_from_malloced_list(void *ptr)
 
 size_t	merge_block(t_block **block)
 {
-	if ((*block)->prev && (*block) ==	(void *)(*block)->prev + BLOCK_SIZE((*block)->prev->size))
+	if ((*block)->prev && (*block) == (void *)(*block)->prev + BLOCK_SIZE((*block)->prev->size))
 	{
 		if ((*block)->next)
 			(*block)->next->prev = (*block)->prev;
@@ -77,8 +77,13 @@ void	reduct_block(t_block *block, t_type type, size_t size)
 {
 	t_block *new_block;
 
+	// BIG new<old mais necessite autant de page
 	if (block->size <= BLOCK_SIZE(size) || type == BIG)
+	{
+		if (type == BIG)
+			block->size = size;
 		return;
+	}
 
 	new_block = make_and_copy_block(GET_DATA_ADDRESS(block) + size, ALLOC_SIZE(block->size - size));
 

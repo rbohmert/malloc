@@ -39,11 +39,13 @@ void	free(void *ptr)
 	t_type	type;
 	t_block	*block;
 
-	if (!ptr) {printf("nonulltofree\n");return;}
+	if (!ptr)
+		return;
 
 	block = get_from_malloced_list(ptr);
 
-	if (!block){printf("noblocktofree\n");return;}
+	if (!block)
+		return;
 
 	type = determine_type(block->size);
 

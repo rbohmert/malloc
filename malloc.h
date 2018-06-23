@@ -6,7 +6,7 @@
 # include <unistd.h>
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#include <stdio.h>
+// #include <stdio.h>
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 # define TINY_SIZE			(size_t)getpagesize()
@@ -18,6 +18,7 @@
 # define GET_DATA_ADDRESS(block) ((void *)((t_block *)block + 1))
 # define BLOCK_SIZE(alloc_size) (alloc_size + sizeof(t_block))
 # define ALLOC_SIZE(block_size) (block_size - sizeof(t_block))
+# define NEEDED_PAGE(alloc_size) ((BLOCK_SIZE(alloc_size) / getpagesize()) + ((BLOCK_SIZE(alloc_size) % getpagesize()) ? 1 : 0))
 
 typedef	enum		e_type
 {
@@ -40,9 +41,10 @@ typedef struct		s_data
 	t_block			*malloced_space;
 }					t_data;
 
-void*	ft_malloc(size_t size);
+void*	malloc(size_t size);
 void	free(void *ptr);
 void	*realloc(void *ptr, size_t size);
+void	show_alloc_mem();
 
 t_data				*get_data();
 t_block				*make_and_copy_block(void *ptr, size_t size);
@@ -61,7 +63,12 @@ t_block             *is_free(t_block *test, t_type type);
 void                *hard_realloc(void *ptr, size_t size, size_t old_size);
 int                 try_to_resize(t_block *block, t_type type, size_t size);
 t_type              determine_type(size_t size);
-
-void	*ft_memcpy(void *dst, const void *src, size_t n);
+t_block				*get_alloced_block(int nb, t_type type);
+void				*ft_memcpy(void *dst, const void *src, size_t n);
+void				print_address(void *ptr);
+size_t				get_len_of_malloced_type(t_type type);
+t_block				*get_alloced_block(int nb, t_type type);
+void				putsize(size_t size);
+void				print_alloced_list(t_type type, size_t len);
 void d();
 #endif

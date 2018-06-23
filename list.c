@@ -1,5 +1,22 @@
 #include "./malloc.h"
 
+t_block		*get_alloced_block(int nb, t_type type)
+{
+	int		count;
+	t_block *b;
+
+	b = DATA->malloced_space;
+	count = 0;
+	while (b)
+	{
+		if (type == determine_type(b->size))
+			count++;
+		if (count == nb)
+			return b;
+		b = b->next;
+	}
+}
+
 void	del_block_from_list(t_block *block, t_block **list)
 {
 	if (*list == block)
@@ -71,8 +88,11 @@ t_block	*find_block(size_t size, t_type type)
 
 	block = (type == TINY) ? DATA->tiny_space : DATA->small_space;
 
-	while (block && block->size < size) 
+	while (block) {
+		if (block->size >= size)
+			break;
 		block = block->next;
+	}	
 	
 	if (block == NULL)
 		block = new_page_alloc(type);
