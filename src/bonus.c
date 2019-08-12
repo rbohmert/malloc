@@ -7,7 +7,7 @@ void *calloc(size_t nmemb, size_t size)
 
 	total_size = nmemb * size;
 
-	if (ptr = malloc(total_size))
+	if ((ptr = malloc(total_size)))
 		return NULL;
 
 	ft_bzero(ptr, total_size);

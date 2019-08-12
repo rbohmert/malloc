@@ -55,7 +55,7 @@ void	putsize(size_t size)
 
 void		print_alloced_list(t_type type, size_t len)
 {
-	int 	i;
+	size_t 	i;
 	t_block *b;
 	t_block *list;
 
@@ -114,11 +114,11 @@ void	show_alloc_mem()
 {
 	size_t	len;
 
-	if (len = get_len_of_malloced_type(TINY))
+	if ((len = get_len_of_malloced_type(TINY)))
 		print_alloced_list(TINY, len);
-	if (len = get_len_of_malloced_type(SMALL))
+	if ((len = get_len_of_malloced_type(SMALL)))
 		print_alloced_list(SMALL, len);
-	if (len = get_len_of_malloced_type(BIG))
+	if ((len = get_len_of_malloced_type(BIG)))
 		print_alloced_list(BIG, len);
 	write(1, "\n\n", 2);
 }	

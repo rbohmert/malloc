@@ -12,9 +12,10 @@ t_block		*get_alloced_block(int nb, t_type type)
 		if (type == determine_type(b->size))
 			count++;
 		if (count == nb)
-			return b;
+			break;
 		b = b->next;
 	}
+	return b;
 }
 
 void	del_block_from_list(t_block *block, t_block **list)

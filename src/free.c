@@ -7,7 +7,7 @@ void	free_block(t_block *block, t_type type)
 	list = (type == TINY) ? &(DATA->tiny_space) : &(DATA->small_space);
 	ordered_add_to_list(block, list);
 
-	if (merge_block(&block) == WHAT_SIZE(type) - 1)
+	if (merge_block(&block) == WHAT_SIZE(type) - 1 && !(*list == block && !block->next))
 	{
 		if (block->prev)
 			block->prev->next = block->next;
