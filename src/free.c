@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rbohmert <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/09/10 18:23:25 by rbohmert          #+#    #+#             */
+/*   Updated: 2019/09/10 18:23:27 by rbohmert         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "./malloc.h"
 
 void	free_block(t_block *block, t_type type)
@@ -6,8 +18,8 @@ void	free_block(t_block *block, t_type type)
 
 	list = (type == TINY) ? &(DATA->tiny_space) : &(DATA->small_space);
 	ordered_add_to_list(block, list);
-
-	if (merge_block(&block) == WHAT_SIZE(type) - 1 && !(*list == block && !block->next))
+	if (merge_block(&block) == WHAT_SIZE(type) - 1 &&
+	!(*list == block && !block->next))
 	{
 		if (block->prev)
 			block->prev->next = block->next;
@@ -15,23 +27,22 @@ void	free_block(t_block *block, t_type type)
 			block->next->prev = block->prev;
 		if (*list == block)
 			*list = block->next ? block->next : NULL;
-
 		munmap((char *)block - 1, WHAT_SIZE(type));
 	}
 }
 
-t_block		*is_free(t_block *test, t_type type)
+t_block	*is_free(t_block *test, t_type type)
 {
 	t_block	*block;
 
 	block = (type == TINY) ? DATA->tiny_space : DATA->small_space;
-
-	while (block) {
+	while (block)
+	{
 		if (block == test)
-			return test;
+			return (test);
 		block = block->next;
 	}
-	return NULL;
+	return (NULL);
 }
 
 void	free(void *ptr)
@@ -40,15 +51,11 @@ void	free(void *ptr)
 	t_block	*block;
 
 	if (!ptr)
-		return;
-
+		return ;
 	block = get_from_malloced_list(ptr);
-
 	if (!block)
-		return;
-
+		return ;
 	type = determine_type(block->size);
-
 	if (type == BIG)
 		munmap((void *)block, BLOCK_SIZE(block->size));
 	else
